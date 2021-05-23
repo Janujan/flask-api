@@ -2,6 +2,7 @@ from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.endpoints import commonallplayers
 from flask import Flask
 import pandas
+import requests
 
 app = Flask(__name__)
 
@@ -28,3 +29,7 @@ def player(playername):
 @app.route("/")
 def hello():
     return "welcome to the NBA player tracker"
+
+@app.route("/jokes")
+def test():
+    return requests.get('https://v2.jokeapi.dev/joke/Any').json()
