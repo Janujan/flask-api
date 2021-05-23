@@ -1,11 +1,22 @@
 from flask import Flask
 from flask import jsonify
+from flask import g #holds information on the request context
 import pandas
 import requests
 import twitter
+import time
 import json
 
 app = Flask(__name__)
+
+@app.before_request
+def before_request():
+    g.start = time.time()
+
+@app.teardown_request
+def after_request(exception):
+    end = time.time() - g.start
+    print(f'time elapsed for request : {end}')
 
 @app.route("/metrics/<string:username>")
 def metric_lookup(username):
