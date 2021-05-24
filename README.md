@@ -32,7 +32,8 @@ Response:
       "retweet_count": 12906
     }, 
     "text": "JA!"
-  }
+  },
+  ...
 ]
 ```
 ### `/tweets/<username:str>`
@@ -69,7 +70,9 @@ Since its a flask app, its relatively straight forward. You just have to clone t
 
 1. install requirements
 
-`pip install requirements.txt`
+```bash
+pip install requirements.txt
+```
 
 **NOTE**: There is a PipFile in place so you can use pipenv as well. 
 
@@ -81,7 +84,9 @@ export API_SECRET=<YOUR SECRET HERE SHHH>
 
 3. Run the flask app
 
-`flask run`
+```bash
+flask run
+```
 
 ## Next Steps
 - Increase limit of tweets returned (as a parameter in the request)
