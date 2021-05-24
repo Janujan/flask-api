@@ -13,7 +13,7 @@ app = Flask(__name__)
 cache_config = {
     "DEBUG": True,          # some Flask specific configs
     "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 300
+    "CACHE_DEFAULT_TIMEOUT": 86400 # one day
 }
 
 app.config.from_mapping(cache_config)
@@ -28,22 +28,29 @@ def before_request():
 def after_request(exception):
     end = time.time() - g.start
     print(f'time elapsed for request : {end}')
+    # print(cache.cache._cache)
 
 @app.route("/metrics/<string:username>")
 @cache.memoize(timeout=120)
-def metric_lookup(username):
-    token = twitter.retrieve_token()
-    return jsonify(twitter.get_metrics_for_tweets(username, token))
+def metric_lookup(username:str):
+    twitter.token =  twitter.retrieve_token()
+    user_id = get_user_id(username)
+    return jsonify(twitter.get_metrics_for_tweets(user_id))
 
 @app.route("/tweets/<string:username>")
 @cache.memoize(timeout=120)
-def tweet_lookup(username):
-    token=twitter.retrieve_token()
-    return jsonify(twitter.get_user_tweets(username, token))
+def tweet_lookup(username:str):
+    twitter.token =  twitter.retrieve_token()
+    user_id = get_user_id(username)
+    return jsonify(twitter.get_user_tweets(user_id))
+
+@cache.memoize()
+def get_user_id(username:str):
+    return twitter.get_user_id(username)
 
 @app.route("/")
 def hello():
-    return "welcome to the NBA player tracker"
+    return "welcome to Jay's tweet service! For more info on how to use this API, check out the repo : https://github.com/Janujan/flask-api"
 
 @app.route("/jokes")
 def test():
