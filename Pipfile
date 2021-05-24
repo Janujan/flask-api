@@ -7,6 +7,7 @@ name = "pypi"
 Flask = "<=1.1.2,>=1.0"
 pandas = "*"
 requests-oauthlib = "*"
+flask-caching = "*"
 
 [dev-packages]
 
