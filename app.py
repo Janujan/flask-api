@@ -60,3 +60,7 @@ def test():
 @app.errorhandler(errors.UserNotFoundError)
 def handle_user_not_found(error):
     return "Uh-oh, that username doesn't exist!", 404
+
+@app.errorhandler(requests.HTTPError)
+def handle_bad_request(error):
+    return "Bad Request To Twitter!", 400
