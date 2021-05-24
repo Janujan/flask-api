@@ -21,7 +21,7 @@ def get_user_id(username:str) -> list:
     response = response.json()
     if response.get('errors'):
         raise errors.UserNotFoundError
-    return response.json()['data']['id']
+    return response['data']['id']
 
 def get_user_tweets(user_id:str) -> list:
     response = requests.get(base_url + f'/2/users/{user_id}/tweets', headers = {"Authorization": f"Bearer {token}"})
