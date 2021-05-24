@@ -7,6 +7,7 @@ import requests
 import twitter
 import time
 import json
+import errors
 
 app = Flask(__name__)
 
@@ -50,8 +51,12 @@ def get_user_id(username:str):
 
 @app.route("/")
 def hello():
-    return "welcome to Jay's tweet service! For more info on how to use this API, check out the repo : https://github.com/Janujan/flask-api"
+    return "Welcome to Jay's tweet service! For more info on how to use this API, check out the repo : https://github.com/Janujan/flask-api"
 
 @app.route("/jokes")
 def test():
     return requests.get('https://v2.jokeapi.dev/joke/Any').json()
+
+@app.errorhandler(errors.UserNotFoundError)
+def handle_user_not_found(error):
+    return "Uh-oh, that username doesn't exist!", 404

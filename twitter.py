@@ -1,7 +1,7 @@
 import requests
 import os
 from requests.auth import HTTPBasicAuth
-
+import errors
 api_key = os.environ['API_KEY'] 
 api_secret = os.environ['API_SECRET'] 
 
@@ -18,6 +18,9 @@ def retrieve_token(user_key:str=None, user_secret:str=None) -> None:
 def get_user_id(username:str) -> list:
     response = requests.get(base_url + f'/2/users/by/username/{username}', headers = {"Authorization": f"Bearer {token}"})
     response.raise_for_status()
+    response = response.json()
+    if response.get('errors'):
+        raise errors.UserNotFoundError
     return response.json()['data']['id']
 
 def get_user_tweets(user_id:str) -> list:
