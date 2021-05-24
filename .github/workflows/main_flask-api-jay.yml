@@ -34,7 +34,7 @@ jobs:
       run: pip install pipenv
 
     - name: Install dependencies
-      run: python -m pipenv install
+      run: pipenv install
 
     # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
