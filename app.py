@@ -31,14 +31,14 @@ def after_request(exception):
     print(f'time elapsed for request : {end}')
     # print(cache.cache._cache)
 
-@app.route("/metrics/<string:username>")
+@app.route("/metrics/<string:username>", methods=['GET'])
 @cache.memoize(timeout=120)
 def metric_lookup(username:str):
     twitter.token =  twitter.retrieve_token()
     user_id = get_user_id(username)
     return jsonify(twitter.get_metrics_for_tweets(user_id))
 
-@app.route("/tweets/<string:username>")
+@app.route("/tweets/<string:username>", methods=['GET'])
 @cache.memoize(timeout=120)
 def tweet_lookup(username:str):
     twitter.token =  twitter.retrieve_token()
@@ -49,11 +49,11 @@ def tweet_lookup(username:str):
 def get_user_id(username:str):
     return twitter.get_user_id(username)
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def hello():
     return "Welcome to Jay's tweet service! For more info on how to use this API, check out the repo : https://github.com/Janujan/flask-api"
 
-@app.route("/jokes")
+@app.route("/jokes", methods=['GET'])
 def test():
     return requests.get('https://v2.jokeapi.dev/joke/Any').json()
 
